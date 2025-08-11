@@ -1,7 +1,7 @@
-// src/components/Navbar.tsx
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useAuth } from '@/hooks/useAuth';
+import styles from '../styles/Navbar.module.css';
 
 export default function Navbar() {
   const { user, signOut } = useAuth();
@@ -13,21 +13,31 @@ export default function Navbar() {
   }
 
   return (
-    <nav className="w-full bg-white shadow">
-      <div className="max-w-4xl mx-auto px-4 py-3 flex justify-between items-center">
+    <nav className={styles.navbar}>
+      <div className={styles.container}>
         <div>
-          <Link href="/"><a className="font-bold text-lg">BudgetBuddy</a></Link>
+          <Link href="/" legacyBehavior>
+            <a className={styles.logo}>Mikono</a>
+          </Link>
         </div>
-        <div className="flex items-center gap-4">
-          <Link href="/dashboard"><a className="text-sm">Dashboard</a></Link>
-          <Link href="/transactions"><a className="text-sm">Transakcje</a></Link>
+        <div className={styles.navLinks}>
+          <Link href="/dashboard" legacyBehavior>
+            <a className={styles.link}>Dashboard</a>
+          </Link>
+          <Link href="/transactions" legacyBehavior>
+            <a className={styles.link}>Transakcje</a>
+          </Link>
           {user ? (
             <>
-              <span className="text-sm text-gray-600">{user.email}</span>
-              <button onClick={logout} className="px-3 py-1 bg-red-500 text-white rounded text-sm">Wyloguj</button>
+              <span className={styles.email}>{user.email}</span>
+              <button onClick={logout} className={styles.logoutBtn}>
+                Wyloguj
+              </button>
             </>
           ) : (
-            <Link href="/auth"><a className="px-3 py-1 bg-blue-600 text-white rounded text-sm">Zaloguj</a></Link>
+            <Link href="/auth" legacyBehavior>
+              <a className={styles.loginBtn}>Zaloguj</a>
+            </Link>
           )}
         </div>
       </div>
