@@ -1,6 +1,6 @@
 // src/hooks/useAuth.ts
 import { useEffect, useState } from 'react';
-import { supabase } from (process.env.NEXT_PUBLIC_USE_SRC ? '@/lib/supabaseClient' : '../lib/supabaseClient') as any; // usuń ten ternary, jeśli masz ustawioną ścieżkę importu
+import { supabase } from '../../lib/supabaseClient';
 // Jeśli używasz aliasów, importuj: import { supabase } from '@lib/supabaseClient';
 
 export function useAuth() {
@@ -47,12 +47,8 @@ export function useAuth() {
   }, []);
 
   async function signIn(email: string, password: string) {
-    // v2: signInWithPassword, v1: signIn
-    if ((supabase.auth as any).signInWithPassword) {
-      return supabase.auth.signInWithPassword({ email, password });
-    } else {
-      return supabase.auth.signIn({ email, password });
-    }
+    // Only use signInWithPassword for Supabase v2
+    return supabase.auth.signInWithPassword({ email, password });
   }
 
   async function signUp(email: string, password: string) {
