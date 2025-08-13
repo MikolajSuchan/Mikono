@@ -1,0 +1,182 @@
+/* Container całej strony */
+.container {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 1rem;
+  font-family: Arial, sans-serif;
+}
+
+/* Tytuł strony */
+.title {
+  font-size: 2rem;
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+/* Przycisk dodawania transakcji */
+.addBtn {
+  display: block;
+  margin: 1rem auto;
+  padding: 0.5rem 1.2rem;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.2s;
+}
+
+.addBtn:hover {
+  background-color: #45a049;
+}
+
+/* Lista transakcji */
+.list {
+  list-style: none;
+  padding: 0;
+  margin-top: 1rem;
+}
+
+/* Pojedyncza karta transakcji */
+.listItem {
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.listItem:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 10px rgba(0,0,0,0.15);
+}
+
+/* Szczegóły transakcji */
+.txDetails {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+/* Nazwa transakcji */
+.txName {
+  font-weight: 500;
+  font-size: 1rem;
+}
+
+/* Kwota transakcji */
+.txAmount {
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+/* Kolory przychodu i wydatku */
+.income {
+  color: green;
+}
+
+.expense {
+  color: red;
+}
+
+/* Data transakcji */
+.txDate {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+/* Przycisk Usuń */
+.deleteBtn {
+  background-color: #f44336;
+  color: white;
+  border: none;
+  padding: 0.4rem 0.8rem;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background-color 0.2s;
+}
+
+.deleteBtn:hover {
+  background-color: #d32f2f;
+}
+
+/* Modal Overlay */
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+/* Modal box */
+.modal {
+  background-color: white;
+  padding: 2rem;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 500px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+/* Inputy, textarea, select w modalu */
+.modal input,
+.modal textarea,
+.modal select {
+  display: block;
+  width: 100%;
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+}
+
+/* Przycisk w modalu */
+.modalButtons {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.saveBtn {
+  background-color: #2196f3;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.2s;
+}
+
+.saveBtn:hover {
+  background-color: #1976d2;
+}
+
+.cancelBtn {
+  background-color: #f44336;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.2s;
+}
+
+.cancelBtn:hover {
+  background-color: #d32f2f;
+}

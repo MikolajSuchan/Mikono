@@ -1,29 +1,35 @@
-import { useEffect } from 'react';
-import { useRouter } from 'next/router';
-import { useRequireAuth } from '@/hooks/useRequireAuth';
+import Layout from '@/components/Layout';
 import styles from '../styles/Dashboard.module.css';
 
-export default function DashboardPage() {
-  const { user, loading } = useRequireAuth();
-  const router = useRouter();
-
-  useEffect(() => {
-    if (!loading && !user) router.push('/auth');
-  }, [user, loading, router]);
-
-  if (loading || !user) return (
-    <div className={styles.loadingWrapper}>
-      <div className={styles.loadingText}>Ładowanie...</div>
-    </div>
-  );
-
+export default function Dashboard() {
   return (
-    <main className={styles.container}>
-      <h1 className={styles.title}>Witaj, {user.email}</h1>
-      <section className={styles.card}>
-        <h2 className={styles.subtitle}>Saldo (przykład)</h2>
-        <p className={styles.balance}>-- tutaj później pojawi się saldo --</p>
+    <Layout>
+      <h1 className={styles.title}>Witaj!</h1>
+
+      {/* Sekcja podsumowania */}
+      <section className={styles.summary}>
+        <div className={styles.card}>
+          <h2>Saldo</h2>
+          <p className={styles.balance}>0 zł</p>
+        </div>
+        <div className={styles.card}>
+          <h2>Przychody</h2>
+          <p className={styles.income}>0 zł</p>
+        </div>
+        <div className={styles.card}>
+          <h2>Wydatki</h2>
+          <p className={styles.expense}>0 zł</p>
+        </div>
       </section>
-    </main>
+
+      {/* Ostatnie transakcje */}
+      <section className={styles.transactions}>
+        <h2>Ostatnie transakcje</h2>
+        <ul>
+          <li>Brak transakcji</li>
+        </ul>
+        <button className={styles.viewAll}>Zobacz wszystkie</button>
+      </section>
+    </Layout>
   );
 }

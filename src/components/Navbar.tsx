@@ -16,7 +16,7 @@ export default function Navbar() {
     <nav className={styles.navbar}>
       <div className={styles.container}>
         <div>
-          <Link href="/" legacyBehavior>
+          <Link href="/dashboard" legacyBehavior>
             <a className={styles.logo}>Mikono</a>
           </Link>
         </div>
@@ -27,6 +27,13 @@ export default function Navbar() {
           <Link href="/transactions" legacyBehavior>
             <a className={styles.link}>Transakcje</a>
           </Link>
+          <Link href="/categories" legacyBehavior>
+            <a className={styles.link}>Kategorie</a>
+          </Link>
+          <Link href="/budgets" legacyBehavior>
+            <a className={styles.link}>Budżety</a>
+          </Link>
+
           {user ? (
             <>
               <span className={styles.email}>{user.email}</span>
