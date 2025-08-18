@@ -3,9 +3,22 @@ import Layout from '@/components/Layout';
 import { supabase } from '../../lib/supabaseClient';
 import styles from '../styles/Budgets.module.css';
 
+interface Budget {
+  id: string;
+  category_id: string;
+  limit_amount: string; // można też number, zależnie od Supabase
+  period: string;
+}
+
+interface Category {
+  id: string;
+  name: string;
+  owner_id?: string;
+}
+
 export default function Budgets() {
-  const [budgets, setBudgets] = useState([]);
-  const [categories, setCategories] = useState([]);
+  const [budgets, setBudgets] = useState<Budget[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [newBudget, setNewBudget] = useState({
     category_id: '',
@@ -15,11 +28,15 @@ export default function Budgets() {
 
   // Pobieranie kategorii
   const fetchCategories = async () => {
-    const user = await supabase.auth.getUser();
+    const { data: userData } = await supabase.auth.getUser();
+    const userId = userData.user?.id;
+    if (!userId) return; // brak użytkownika, kończymy
+
     const { data, error } = await supabase
       .from('categories')
       .select('*')
-      .eq('owner_id', user.data.user?.id);
+      .eq('owner_id', userId);
+
     if (error) console.error(error);
     else setCategories(data || []);
   };
@@ -29,17 +46,26 @@ export default function Budgets() {
     const { data, error } = await supabase
       .from('budget_limits')
       .select('*');
+
     if (error) console.error(error);
-    else setBudgets(data || []);
+    else
+      setBudgets(
+        (data || []).map(b => ({
+          ...b,
+          limit_amount: String(b.limit_amount)
+        }))
+      );
   };
 
   useEffect(() => {
-    fetchCategories();
-    fetchBudgets();
+    // tylko po stronie klienta
+    if (typeof window !== 'undefined') {
+      fetchCategories();
+      fetchBudgets();
+    }
   }, []);
 
   const addBudget = async () => {
-    // Sprawdzenie czy taki budżet już istnieje
     const exists = budgets.some(
       b => b.category_id === newBudget.category_id && b.period === newBudget.period
     );
@@ -55,9 +81,12 @@ export default function Budgets() {
 
     if (error) {
       console.error(error);
-      alert('Nie udało się dodać budżetu. Być może już istnieje.');
+      alert('Nie udało się dodać budżetu.');
     } else {
-      setBudgets([...budgets, ...(data || [])]);
+      setBudgets([...budgets, ...(data || []).map(b => ({
+        ...b,
+        limit_amount: String(b.limit_amount)
+      }))]);
       setIsModalOpen(false);
       setNewBudget({
         category_id: '',
@@ -78,7 +107,9 @@ export default function Budgets() {
     <Layout>
       <main className={styles.container}>
         <h1 className={styles.title}>Budżety</h1>
-        <button className={styles.addBtn} onClick={() => setIsModalOpen(true)}>Dodaj budżet</button>
+        <button className={styles.addBtn} onClick={() => setIsModalOpen(true)}>
+          Dodaj budżet
+        </button>
 
         <ul className={styles.list}>
           {budgets.map(b => (
@@ -90,7 +121,9 @@ export default function Budgets() {
                 <span className={styles.limitAmount}>{b.limit_amount} zł</span>
                 <span className={styles.period}>{b.period}</span>
               </div>
-              <button className={styles.deleteBtn} onClick={() => deleteBudget(b.id)}>Usuń</button>
+              <button className={styles.deleteBtn} onClick={() => deleteBudget(b.id)}>
+                Usuń
+              </button>
             </li>
           ))}
         </ul>
@@ -100,21 +133,29 @@ export default function Budgets() {
             <div className={styles.modal}>
               <h2>Dodaj nowy budżet</h2>
 
-              <select value={newBudget.category_id} onChange={e => setNewBudget({...newBudget, category_id: e.target.value})}>
+              <select
+                value={newBudget.category_id}
+                onChange={e => setNewBudget({ ...newBudget, category_id: e.target.value })}
+              >
                 <option value="">Wybierz kategorię</option>
                 {categories.map(cat => (
-                  <option key={cat.id} value={cat.id}>{cat.name}</option>
+                  <option key={cat.id} value={cat.id}>
+                    {cat.name}
+                  </option>
                 ))}
               </select>
 
-              <input 
-                type="number" 
-                placeholder="Limit kwoty" 
-                value={newBudget.limit_amount} 
-                onChange={e => setNewBudget({...newBudget, limit_amount: e.target.value})} 
+              <input
+                type="number"
+                placeholder="Limit kwoty"
+                value={newBudget.limit_amount}
+                onChange={e => setNewBudget({ ...newBudget, limit_amount: e.target.value })}
               />
 
-              <select value={newBudget.period} onChange={e => setNewBudget({...newBudget, period: e.target.value})}>
+              <select
+                value={newBudget.period}
+                onChange={e => setNewBudget({ ...newBudget, period: e.target.value })}
+              >
                 <option value="daily">Dzienny</option>
                 <option value="weekly">Tygodniowy</option>
                 <option value="monthly">Miesięczny</option>
@@ -122,8 +163,12 @@ export default function Budgets() {
               </select>
 
               <div className={styles.modalButtons}>
-                <button className={styles.saveBtn} onClick={addBudget}>Zapisz</button>
-                <button className={styles.cancelBtn} onClick={() => setIsModalOpen(false)}>Anuluj</button>
+                <button className={styles.saveBtn} onClick={addBudget}>
+                  Zapisz
+                </button>
+                <button className={styles.cancelBtn} onClick={() => setIsModalOpen(false)}>
+                  Anuluj
+                </button>
               </div>
             </div>
           </div>
