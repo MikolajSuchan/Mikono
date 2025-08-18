@@ -9,7 +9,6 @@ type Category = {
   id: number;
   name: string;
   owner_id: string;
-  // add other fields if needed
 };
 
 export default function Categories() {
