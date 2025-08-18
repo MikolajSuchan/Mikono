@@ -1,0 +1,145 @@
+.container {
+  padding: 2rem;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.title {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.addBtn {
+  padding: 0.5rem 1rem;
+  margin-bottom: 1rem;
+  cursor: pointer;
+  background: #0070f3;
+  color: white;
+  border: none;
+  border-radius: 5px;
+}
+
+.list {
+  list-style: none;
+  padding: 0;
+}
+
+.listItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem;
+  border: 1px solid #ccc;
+  margin-bottom: 0.5rem;
+  border-radius: 4px;
+}
+
+.budgetDetails {
+  display: flex;
+  gap: 1rem;
+}
+
+.categoryName {
+  font-weight: bold;
+}
+
+.limitAmount {
+  color: green;
+}
+
+.period {
+  font-style: italic;
+  color: #555;
+}
+
+.deleteBtn {
+  background: red;
+  color: white;
+  border: none;
+  padding: 0.25rem 0.5rem;
+  cursor: pointer;
+  border-radius: 3px;
+}
+
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal {
+  background: white;
+  padding: 2rem;
+  border-radius: 8px;
+  width: 100%;
+  max-width: 400px;
+}
+
+.modal input,
+.modal select {
+  width: 100%;
+  padding: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.modalButtons {
+  display: flex;
+  justify-content: space-between;
+}
+
+.saveBtn {
+  background: green;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+}
+
+.cancelBtn {
+  background: gray;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+}
+.budgets {
+  margin-top: 2rem;
+  background: white;
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+.budgetGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.budgetCard {
+  text-align: center;
+  padding: 0.75rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  background: #f9fafb;
+  font-size: 0.9rem;
+}
+
+.budgetCard h3 {
+  margin-bottom: 0.25rem;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.budgetCard p {
+  margin-top: 0.5rem;
+  font-size: 0.85rem;
+  color: #374151;
+}
+
