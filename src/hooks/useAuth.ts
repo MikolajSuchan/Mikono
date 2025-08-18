@@ -4,7 +4,6 @@ import { supabase } from '../../lib/supabaseClient';
 interface User {
   id: string;
   email: string;
-  // możesz dodać inne pola z supabase.user_metadata
 }
 
 interface AuthResponse {
@@ -22,18 +21,29 @@ export function useAuth() {
 
     async function getSession() {
       try {
-        const { data }: { data: { session: { user: User } | null } } = await supabase.auth.getSession();
-        if (mounted) setUser(data?.session?.user ?? null);
+        const { data } = await supabase.auth.getSession();
+        const sessionUser = data?.session?.user;
+       if (mounted && data?.session?.user?.email) {
+  const supabaseUser = data.session.user;
+  if (supabaseUser?.id && supabaseUser?.email) {
+    setUser({ id: supabaseUser.id, email: supabaseUser.email });
+  } else {
+    setUser(null);
+  }
+} else {
+  setUser(null);
+}
+
       } catch (err) {
         console.error('getSession error', err);
       } finally {
         if (mounted) setLoading(false);
       }
     }
-    getSession();
 
     const sub = supabase.auth.onAuthStateChange((event, session) => {
-      setUser(session?.user ?? null);
+      const supabaseUser = session?.user;
+      setUser(supabaseUser && supabaseUser.email ? { id: supabaseUser.id, email: supabaseUser.email } : null);
       setLoading(false);
     });
 
