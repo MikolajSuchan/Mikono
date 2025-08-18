@@ -27,5 +27,5 @@ The app allows tracking incomes, expenses, and budget limits for categories with
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your-username/budget-manager.git
-   cd budget-manager
+   git clone https://github.com/MikolajSuchan/Mikono.git
+   cd Mikono

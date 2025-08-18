@@ -4,8 +4,26 @@ import { supabase } from '../../lib/supabaseClient';
 import styles from '../styles/Transactions.module.css';
 
 export default function Transactions() {
-  const [transactions, setTransactions] = useState([]);
-  const [categories, setCategories] = useState([]);
+  type Transaction = {
+    id: string;
+    transaction_name: string;
+    amount: number;
+    transaction_type: string;
+    transaction_date: string;
+    description: string;
+    category_id: string;
+    owner_id: string;
+    // add other fields if needed
+  };
+
+  const [transactions, setTransactions] = useState<Transaction[]>([]);
+  type Category = {
+    id: string;
+    name: string;
+    // add other fields if needed
+  };
+
+  const [categories, setCategories] = useState<Category[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [userId, setUserId] = useState<string | null>(null);
 

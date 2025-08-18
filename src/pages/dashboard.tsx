@@ -12,15 +12,39 @@ import {
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-);
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
+if (!supabaseUrl || !supabaseAnonKey) {
+  throw new Error('Brak ustawionych zmiennych środowiskowych Supabase!');
+}
+
+const supabase = createClient(supabaseUrl, supabaseAnonKey);
+
+
+type Budget = {
+  id: number;
+  category_id: number;
+  limit_amount: number;
+  period: string;
+};
+
+type Category = {
+  id: number;
+  name: string;
+};
+
+type Transaction = {
+  id: number;
+  category_id: number;
+  amount: number;
+  transaction_type: string;
+};
 
 export default function Dashboard() {
-  const [budgets, setBudgets] = useState([]);
-  const [categories, setCategories] = useState([]);
-  const [transactions, setTransactions] = useState([]);
+  const [budgets, setBudgets] = useState<Budget[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [transactions, setTransactions] = useState<Transaction[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -36,7 +60,7 @@ export default function Dashboard() {
     fetchData();
   }, []);
 
-  const getSpentForCategory = (categoryId) => {
+  const getSpentForCategory = (categoryId: number) => {
     return transactions
       .filter((t) => t.category_id === categoryId && t.transaction_type === "expense")
       .reduce((sum, t) => sum + Number(t.amount), 0);
@@ -120,7 +144,7 @@ export default function Dashboard() {
                           tooltip: {
                             callbacks: {
                               label: function (context) {
-                                const value = context.raw;
+                                const value = Number(context.raw);
                                 const total = spent + remaining;
                                 const percent = ((value / total) * 100).toFixed(1);
                                 return `${context.label}: ${value} zł (${percent}%)`;
