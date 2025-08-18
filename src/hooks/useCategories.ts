@@ -1,11 +1,17 @@
-// hooks/useCategories.ts
 import { useEffect, useState } from 'react';
 import { supabase } from '../../lib/supabaseClient';
 import { useAuth } from '@/hooks/useAuth';
 
+interface Category {
+  id: string;
+  name: string;
+  owner_id: string;
+  created_at: string;
+}
+
 export function useCategories() {
   const { user } = useAuth();
-  const [categories, setCategories] = useState<any[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {

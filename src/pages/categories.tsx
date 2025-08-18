@@ -49,6 +49,7 @@ export default function Categories() {
       <button
         className={styles.deleteBtn}
         onClick={async () => {
+          if (!user) return;
           const { error } = await supabase
             .from('categories')
             .delete()
