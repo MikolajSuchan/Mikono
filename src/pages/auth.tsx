@@ -21,20 +21,24 @@ export default function AuthPage() {
     e.preventDefault();
     setLoading(true);
     setError(null);
-    try {
-      if (mode === 'login') {
-        const res = await signIn(email, password);
-        if (res?.error) throw res.error;
-      } else {
-        const res = await signUp(email, password);
-        if (res?.error) throw res.error;
-      }
-      router.push('/dashboard');
-    } catch (err: any) {
-      setError(err.message ?? JSON.stringify(err));
-    } finally {
-      setLoading(false);
-    }
+try {
+  if (mode === 'login') {
+    const res = await signIn(email, password);
+    if (res?.error) throw res.error;
+  } else {
+    const res = await signUp(email, password);
+    if (res?.error) throw res.error;
+  }
+  router.push('/dashboard');
+} catch (err: unknown) {
+  if (err instanceof Error) {
+    setError(err.message);
+  } else {
+    setError(JSON.stringify(err));
+  }
+} finally {
+  setLoading(false);
+}
   }
 
   return (
