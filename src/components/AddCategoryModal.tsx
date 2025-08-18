@@ -17,7 +17,7 @@ export default function AddCategoryModal({ onClose, onAdded }: AddCategoryModalP
     if (!name.trim()) return;
     setLoading(true);
     const { error } = await supabase.from('categories').insert([
-      { name, owner_id: user.id },
+      { name, owner_id: user!.id },
     ]);
     setLoading(false);
     if (error) console.error(error);
