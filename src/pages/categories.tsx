@@ -29,8 +29,9 @@ export default function Categories() {
   };
 
   useEffect(() => {
-    fetchCategories();
-  }, [user]);
+  fetchCategories();
+}, [fetchCategories]);
+
 
   return (
     <Layout>
